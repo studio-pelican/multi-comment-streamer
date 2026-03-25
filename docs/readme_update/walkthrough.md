@@ -1,0 +1,25 @@
+# README.md 刷新のウォークスルー
+
+デフォルトの Next.js README を廃止し、本プロジェクト「Multi Comment Streamer」に最適化された内容へ全面的にアップデートしました。
+
+## 変更内容
+
+### Documentation
+
+#### [MODIFY] [README.md](file:///Users/pelican/repos/multi-comment-streamer/README.md)
+以下の項目を日本語で詳細に記述しました：
+- **プロジェクト概要**: 本アプリの目的（YouTube/ツイキャス統合）
+- **主要機能**: 
+  - 統合コメント表示
+  - 表示位置指定（`pos=right|left`）
+  - モダンなグラスモーフィズム・デザイン
+  - サブパス環境へのデプロイ対応
+- **セットアップ手順**: 必要な環境変数（YouTube API Key, TwitCasting Client ID）の設定方法
+- **OBSでの使用方法**: ブラウザソースの設定推奨値（1920x1080）
+- **テスト・開発**: `/sample` ページでの動作確認方法
+
+## 検証結果
+
+### Manual Verification
+- `README.md` をプレビューし、すべてのセクションが現在の実装（特に今回追加した表示位置指定機能やサンプルページ）を正確に反映していることを確認しました。
+- 各種設定手順が、初めて利用するユーザーにとっても分かりやすい記述になっていることを確認しました。

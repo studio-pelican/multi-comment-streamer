@@ -1,0 +1,21 @@
+# セットアップページの改修：URL生成の修正と表示位置指定UIの追加
+
+セットアップページ（`/`）で生成されるオーバーレイ用URLが、ネストされたパス（GitHub Pagesなど）で正しく機能しない問題を修正します。また、直前のタスクで追加した「表示位置指定（左右）」をセットアップUIから選択できるようにし、URLに自動反映させます。
+
+## Proposed Changes
+
+### UI Components
+
+#### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/page.tsx)
+- **URL生成の修正**: `url.pathname = "/overlay"` はルートパスを強制指定してしまうため、現在のパスをベースに `/overlay` を付与する形式に修正します。
+- **表示位置指定UIの追加**:
+  - `pos` 状態を追加します。
+  - 「4. オーバーレイURL」セクションの前に「表示位置のカスタマイズ」セクション（ラジオボタン）を追加します。
+- **生成URLへの反映**: `pos=right` が選択されている場合に `url.searchParams.set("pos", "right")` を実行するようにします。
+
+## Verification Plan
+
+### Manual Verification
+- ローカル外の環境（またはサブパスを模した環境）を想定し、正しいパス構造でURLが生成されるか確認します。
+- 「左」「右」の選択に応じて、生成されるURLの `pos` パラメータが変化することを確認します。
+- コピーしたURLを別タブで開き、期待通りの位置にコメントが表示されるか確認します。

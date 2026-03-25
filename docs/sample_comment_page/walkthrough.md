@@ -1,0 +1,20 @@
+# サンプルコメントページ作成のウォークスルー
+
+ダミーコメントを自動生成して表示するサンプルページを作成し、表示位置の指定機能を追加しました。
+
+## 変更内容
+
+### UI Components
+
+#### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/sample/page.tsx)
+- **URLパラメータ対応**: `?pos=right` または `?pos=left` で表示位置を切り替えられるようにしました。
+- **動的レイアウト**:
+  - `pos=right` の場合: 右端にコメントを表示し、アニメーションの起点も右側に設定。
+  - `pos=left` (または指定なし) の場合: 左端にコメントを表示。
+- **Next.js 対応**: `useSearchParams` を使用するため、コンポーネントを `Suspense` でラップしました。
+
+## 検証結果
+
+### 動作確認
+- `http://localhost:3000/sample?pos=right` にアクセスし、コメントが右側に正しく表示され、右から左へスライドインすることを確認しました。
+- `http://localhost:3000/sample?pos=left` またはパラメータなしで左側に表示されることを確認しました。

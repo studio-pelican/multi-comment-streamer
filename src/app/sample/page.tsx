@@ -3,10 +3,8 @@
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { useYouTubeChat } from "@/hooks/useYouTubeChat";
-import { useTwitCastingChat } from "@/hooks/useTwitCastingChat";
 
-export interface NormalizedComment {
+interface NormalizedComment {
   id: string;
   platform: "youtube" | "twitcasting";
   authorName: string;
@@ -15,76 +13,84 @@ export interface NormalizedComment {
   timestamp: number;
 }
 
-function OverlayContent() {
+const DUMMY_POOL: Omit<NormalizedComment, "id" | "timestamp">[] = [
+  {
+    platform: "youtube",
+    authorName: "ユーザーA",
+    authorIcon: "https://api.dicebear.com/7.x/avataaars/svg?seed=A",
+    message: "こんにちは！テストコメントです。",
+  },
+  {
+    platform: "twitcasting",
+    authorName: "ユーザーB",
+    authorIcon: "https://api.dicebear.com/7.x/avataaars/svg?seed=B",
+    message: "ツイキャスからのコメントテスト",
+  },
+  {
+    platform: "youtube",
+    authorName: "ユーザーC",
+    authorIcon: "https://api.dicebear.com/7.x/avataaars/svg?seed=C",
+    message: "このオーバーレイかっこいいですね！",
+  },
+  {
+    platform: "twitcasting",
+    authorName: "ユーザーD",
+    authorIcon: "https://api.dicebear.com/7.x/avataaars/svg?seed=D",
+    message: "草生えるｗｗｗ",
+  },
+  {
+    platform: "youtube",
+    authorName: "ユーザーE",
+    authorIcon: "https://api.dicebear.com/7.x/avataaars/svg?seed=E",
+    message: "8888888888888",
+  },
+];
+
+function SampleOverlayContent() {
   const searchParams = useSearchParams();
-  const [unifiedComments, setUnifiedComments] = useState<NormalizedComment[]>([]);
-  
-  const ytId = searchParams.get("yt");
-  const tcId = searchParams.get("tc");
   const pos = searchParams.get("pos") || "left";
   const isRight = pos === "right";
-  
-  const [keys, setKeys] = useState({ ytKey: "", tcToken: "" });
 
+  const [unifiedComments, setUnifiedComments] = useState<NormalizedComment[]>([]);
+
+  // 3秒ごとにランダムなコメントを追加
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hash = window.location.hash.replace(/^#/, "");
-      const params = new URLSearchParams(hash);
-      setKeys({
-        ytKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || "",
-        tcToken: params.get("tcToken") || ""
+    const interval = setInterval(() => {
+      const template = DUMMY_POOL[Math.floor(Math.random() * DUMMY_POOL.length)];
+      const newComment: NormalizedComment = {
+        ...template,
+        id: Math.random().toString(36).substr(2, 9),
+        timestamp: Date.now(),
+      };
+
+      setUnifiedComments((prev) => {
+        const merged = [...prev, newComment];
+        if (merged.length > 20) {
+          return merged.slice(merged.length - 20);
+        }
+        return merged;
       });
-    }
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  const yt = useYouTubeChat(ytId, keys.ytKey);
-  const tc = useTwitCastingChat(tcId, keys.tcToken);
-
-  useEffect(() => {
-    setUnifiedComments(prev => {
-      const existingIds = new Set(prev.map(c => c.id));
-      const incoming = [...yt.comments, ...tc.comments].sort((a, b) => a.timestamp - b.timestamp);
-      
-      const novel = incoming.filter(c => !existingIds.has(c.id));
-      if (novel.length === 0) return prev;
-      
-      const merged = [...prev, ...novel];
-      
-      // 最大30件残す
-      if (merged.length > 30) {
-        return merged.slice(merged.length - 30);
-      }
-      return merged;
-    });
-  }, [yt.comments, tc.comments]);
-
-  // 古いコメントを自動パージする（60秒など）
+  // 60秒経過したコメントを削除
   useEffect(() => {
     const timer = setInterval(() => {
       const now = Date.now();
-      setUnifiedComments(prev => prev.filter(c => now - c.timestamp < 60000));
+      setUnifiedComments((prev) => prev.filter((c) => now - c.timestamp < 60000));
     }, 2000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className={`w-full h-screen overflow-hidden p-6 flex flex-col justify-end text-white bg-transparent ${
+    <div className={`w-full h-screen overflow-hidden p-6 flex flex-col justify-end text-white bg-slate-900/10 ${
       isRight ? "items-end" : "items-start"
     }`}>
-      
-      <div className={`absolute top-4 ${isRight ? "right-4" : "left-4"} flex flex-col gap-2 max-w-sm z-50 ${
-        isRight ? "items-end" : "items-start"
-      }`}>
-        {ytId && !yt.isConnected && yt.error && (
-          <div className="bg-slate-900/90 text-red-300 text-xs px-3 py-2 rounded shadow backdrop-blur-sm border border-red-900">
-            {yt.error}
-          </div>
-        )}
-        {tcId && !tc.isConnected && tc.error && (
-          <div className="bg-slate-900/90 text-blue-300 text-xs px-3 py-2 rounded shadow backdrop-blur-sm border border-blue-900">
-            {tc.error}
-          </div>
-        )}
+      <div className={`absolute top-4 ${isRight ? "right-4" : "left-4"} bg-slate-900/80 px-4 py-2 rounded-lg border border-white/20 backdrop-blur-md`}>
+        <h1 className="text-sm font-bold">サンプルコメント表示ページ</h1>
+        <p className="text-[10px] opacity-70">URLパラメータ `pos=right` で右側に表示されます</p>
       </div>
 
       <div className={`w-full flex flex-col justify-end pb-4 ${
@@ -104,7 +110,6 @@ function OverlayContent() {
               }`}
               style={{ overflow: "hidden" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={comment.authorIcon} alt="" className="w-8 h-8 rounded-full bg-slate-800 flex-shrink-0 object-cover border border-white/10" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
@@ -125,10 +130,10 @@ function OverlayContent() {
   );
 }
 
-export default function OverlayPage() {
+export default function SampleOverlayPage() {
   return (
     <Suspense fallback={<div className="bg-transparent" />}>
-      <OverlayContent />
+      <SampleOverlayContent />
     </Suspense>
   );
 }

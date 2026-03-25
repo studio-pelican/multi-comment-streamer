@@ -7,6 +7,7 @@ export default function Home() {
   const [ytId, setYtId] = useState("");
   const [tcId, setTcId] = useState("");
   const [tcToken, setTcToken] = useState("");
+  const [pos, setPos] = useState<"left" | "right">("left");
   const [overlayUrl, setOverlayUrl] = useState("");
 
   const ytApiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || "";
@@ -43,9 +44,12 @@ export default function Home() {
     localStorage.setItem("tc_screen_id", tcId);
 
     const url = new URL(window.location.href);
-    url.pathname = "/overlay";
+    // パス階層に対応するため、現在のパスをベースに /overlay を付与（末尾のスラッシュを考慮）
+    url.pathname = url.pathname.replace(/\/$/, "") + "/overlay";
+    
     if (ytId) url.searchParams.set("yt", ytId);
     if (tcId) url.searchParams.set("tc", tcId);
+    if (pos === "right") url.searchParams.set("pos", "right");
     
     // TwitCastingのトークンはOBS上でも必要なため、ハッシュに含めて渡す
     const hashParams = new URLSearchParams();
@@ -53,7 +57,7 @@ export default function Home() {
     url.hash = hashParams.toString();
     
     setOverlayUrl(url.toString());
-  }, [ytId, tcId, tcToken]);
+  }, [ytId, tcId, tcToken, pos]);
 
   const handleTcLogin = () => {
     if (!tcClientId) {
@@ -146,7 +150,35 @@ export default function Home() {
         </section>
 
         <section className="bg-slate-800 p-6 rounded-xl space-y-4 border border-slate-700 shadow-xl">
-          <h2 className="text-xl font-semibold border-b border-slate-700 pb-2">4. オーバーレイURL</h2>
+          <h2 className="text-xl font-semibold border-b border-slate-700 pb-2">4. 表示位置のカスタマイズ</h2>
+          <div className="flex gap-4">
+            <button
+              onClick={() => setPos("left")}
+              className={`flex-1 py-3 px-4 rounded-lg border transition-all flex items-center justify-center gap-2 ${
+                pos === "left" 
+                ? "bg-blue-600/20 border-blue-500 text-blue-400" 
+                : "bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-600"
+              }`}
+            >
+              <div className={`w-3 h-3 rounded-full ${pos === "left" ? "bg-blue-400" : "border border-slate-500"}`} />
+              左側に表示 (デフォルト)
+            </button>
+            <button
+              onClick={() => setPos("right")}
+              className={`flex-1 py-3 px-4 rounded-lg border transition-all flex items-center justify-center gap-2 ${
+                pos === "right" 
+                ? "bg-blue-600/20 border-blue-500 text-blue-400" 
+                : "bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-600"
+              }`}
+            >
+              <div className={`w-3 h-3 rounded-full ${pos === "right" ? "bg-blue-400" : "border border-slate-500"}`} />
+              右側に表示
+            </button>
+          </div>
+        </section>
+
+        <section className="bg-slate-800 p-6 rounded-xl space-y-4 border border-slate-700 shadow-xl">
+          <h2 className="text-xl font-semibold border-b border-slate-700 pb-2">5. オーバーレイURL</h2>
           <div className="flex items-center gap-2">
             <input
               type="text"

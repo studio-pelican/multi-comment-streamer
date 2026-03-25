@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Multi Comment Streamer 📺
 
-## Getting Started
+YouTube Live と ツイキャスのコメントを1つの画面に統合し、OBSなどの配信ソフトで利用できるオーバーレイ・アプリケーションです。
+Next.js で構築されており、美しくカスタマイズ性の高いコメント表示を提供します。
 
-First, run the development server:
+## ✨ 主な機能
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **マルチプラットフォーム統合**: YouTube Live と ツイキャスのコメントをリアルタイムに同時表示。
+- **表示位置のカスタマイズ**: URLパラメータ（`pos=left|right`）またはセットアップ画面から、コメントの表示位置を左右に切り替え可能。
+- **洗練されたデザイン**: グラスモーフィズム（半透明）を採用したモダンなUI。プラットフォームごとの色分け（YouTube: 赤、ツイキャス: 青）で視認性を確保。
+- **スムーズなアニメーション**: `framer-motion` を使用した滑らかな出現・消失エフェクト。
+- **自動クリア機能**: 60秒経過した古いコメントを自動的に画面から除外。
+- **サブパス対応**: GitHub Pages などのサブディレクトリ環境へのデプロイにも完全対応。
+
+## 🚀 セットアップ方法
+
+### 1. 環境変数の設定
+プロジェクトのルートに `.env.local` を作成し、以下の情報を設定してください。
+
+```env
+NEXT_PUBLIC_YOUTUBE_API_KEY=あなたのYouTube_APIキー
+NEXT_PUBLIC_TWITCASTING_CLIENT_ID=あなたのツイキャスClient_ID
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. ローカルでの起動
+```bash
+npm install
+npm run dev
+```
+起動後、ブラウザで `http://localhost:3000` にアクセスします。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. テスト（サンプルページ）
+配信環境がない状態でも、以下のURLでダミーコメントの動作を確認できます。表示位置のテストも可能です。
+- `http://localhost:3000/sample`
+- `http://localhost:3000/sample?pos=right`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎥 OBSでの使い方
 
-## Learn More
+1. セットアップ画面（`/`）で **YouTube Video ID** または **ツイキャス Screen ID** を入力します。
+2. 「表示位置のカスタマイズ」で希望の位置を選択します。
+3. 生成された「オーバーレイURL」をコピーします。
+4. OBSで「ブラウザ」ソースを追加し、URLを貼り付けます。
+   - **幅**: 1920
+   - **高さ**: 1080
+   - **背景**: 透明度を維持するため、カスタムCSSは不要です。
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠 技術スタック
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework**: [Next.js](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Animation**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📝 開発ドキュメント
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+各機能の実装詳細や不具合修正の記録は `docs/` ディレクトリに保存されています。
+- [表示位置指定機能 (URLパラメータ)](./docs/overlay_position_customization/)
+- [セットアップ画面の修正とURL生成](./docs/setup_page_fix/)
+- [サンプルコメントページ](./docs/sample_comment_page/)
