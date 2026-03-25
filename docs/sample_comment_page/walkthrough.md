@@ -6,7 +6,7 @@
 
 ### UI Components
 
-#### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/sample/page.tsx)
+#### [MODIFY] [page.tsx](../../src/app/sample/page.tsx)
 - **URLパラメータ対応**: `?pos=right` または `?pos=left` で表示位置を切り替えられるようにしました。
 - **動的レイアウト**:
   - `pos=right` の場合: 右端にコメントを表示し、アニメーションの起点も右側に設定。

@@ -6,7 +6,7 @@
 
 ### UI Components
 
-#### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/overlay/page.tsx)
+#### [MODIFY] [page.tsx](../../src/app/overlay/page.tsx)
 - `useSearchParams` から `pos` (left/right) を取得するように変更します。
 - メインの `div` コンデンサの `items-start`/`items-end` を切り替えます。
 - 接続エラーなどの通知メッセージの表示位置も、`pos` に応じて調整します。

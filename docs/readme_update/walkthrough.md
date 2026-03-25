@@ -6,7 +6,7 @@
 
 ### Documentation
 
-#### [MODIFY] [README.md](file:///Users/pelican/repos/multi-comment-streamer/README.md)
+#### [MODIFY] [README.md](../../README.md)
 以下の項目を日本語で詳細に記述しました：
 - **プロジェクト概要**: 本アプリの目的（YouTube/ツイキャス統合）
 - **主要機能**: 

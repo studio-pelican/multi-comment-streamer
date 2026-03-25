@@ -51,6 +51,11 @@ function SampleOverlayContent() {
   const pos = searchParams.get("pos") || "left";
   const isRight = pos === "right";
 
+  const topParam = searchParams.get("top");
+  const bottomParam = searchParams.get("bottom");
+  const topValue = topParam ? Math.max(0, Math.min(100, parseInt(topParam) || 0)) : 10;
+  const bottomValue = bottomParam ? Math.max(0, Math.min(100, parseInt(bottomParam) || 0)) : 10;
+
   const [unifiedComments, setUnifiedComments] = useState<NormalizedComment[]>([]);
 
   // 3秒ごとにランダムなコメントを追加
@@ -88,12 +93,14 @@ function SampleOverlayContent() {
     <div className={`w-full h-screen overflow-hidden p-6 flex flex-col justify-end text-white bg-slate-900/10 ${
       isRight ? "items-end" : "items-start"
     }`}>
-      <div className={`absolute top-[11vh] ${isRight ? "right-6" : "left-6"} bg-slate-900/80 px-4 py-2 rounded-lg border border-white/20 backdrop-blur-md z-50`}>
+      <div className={`absolute ${isRight ? "right-6" : "left-6"} bg-slate-900/80 px-4 py-2 rounded-lg border border-white/20 backdrop-blur-md z-50`}
+           style={{ top: `${topValue + 1}vh` }}>
         <h1 className="text-sm font-bold">サンプルコメント表示ページ</h1>
         <p className="text-[10px] opacity-70">URLパラメータ `pos=right` で右側に表示されます</p>
       </div>
 
-      <div className="absolute inset-x-0 top-[10vh] bottom-[10vh] overflow-hidden px-6 flex flex-col justify-end pointer-events-none">
+      <div className="absolute inset-x-0 overflow-hidden px-6 flex flex-col justify-end pointer-events-none"
+           style={{ top: `${topValue}vh`, bottom: `${bottomValue}vh` }}>
         <div className={`w-full flex flex-col justify-end pb-4 pointer-events-auto ${
           isRight ? "items-end" : "items-start"
         }`}>

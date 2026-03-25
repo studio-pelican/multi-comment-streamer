@@ -6,7 +6,7 @@
 
 ### UI Components
 
-#### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/sample/page.tsx)
+#### [MODIFY] [page.tsx](../../src/app/sample/page.tsx)
 - `useSearchParams` を導入し、URLパラメータ `pos` (left/right) を取得します。
 - 取得した `pos` の値に応じて、コンテナの `items-start`/`items-end` および `framer-motion` の初期移動方向 (`x`) を切り替えます。
 - `Suspense` でコンポーネントを囲うように修正します（Next.js の制約）。

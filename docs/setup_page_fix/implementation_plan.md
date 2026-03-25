@@ -6,7 +6,7 @@
 
 ### UI Components
 
-#### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/page.tsx)
+#### [MODIFY] [page.tsx](../../src/app/page.tsx)
 - **URL生成の修正**: `url.pathname = "/overlay"` はルートパスを強制指定してしまうため、現在のパスをベースに `/overlay` を付与する形式に修正します。
 - **表示位置指定UIの追加**:
   - `pos` 状態を追加します。

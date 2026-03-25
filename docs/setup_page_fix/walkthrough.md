@@ -6,7 +6,7 @@
 
 ### UI Components
 
-#### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/page.tsx)
+#### [MODIFY] [page.tsx](../../src/app/page.tsx)
 - **バグ修正 (依存配列の追加)**:
   - 表示位置（`pos`）を選択しても生成URLが更新されていなかった問題を修正しました。
   - `useEffect` の依存配列に `pos` を追加したことで、ボタン選択と同時に `overlayUrl` が再計算されるようになりました。

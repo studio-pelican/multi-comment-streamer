@@ -6,7 +6,7 @@
 
 ### Documentation
 
-#### [MODIFY] [README.md](file:///Users/pelican/repos/multi-comment-streamer/README.md)
+#### [MODIFY] [README.md](../../README.md)
 - プロジェクト概要（YouTube/ツイキャス統合オーバーレイ）を記述します。
 - 主な機能リスト（統合表示、左右表示切り替え、グラスモーフィズム・デザイン等）を作成します。
 - セットアップガイド（環境変数、OBS設定値）を明文化します。

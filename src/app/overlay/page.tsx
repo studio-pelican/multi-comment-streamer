@@ -23,6 +23,11 @@ function OverlayContent() {
   const tcId = searchParams.get("tc");
   const pos = searchParams.get("pos") || "left";
   const isRight = pos === "right";
+
+  const topParam = searchParams.get("top");
+  const bottomParam = searchParams.get("bottom");
+  const top = topParam ? Math.max(0, Math.min(100, parseInt(topParam) || 0)) : 10;
+  const bottom = bottomParam ? Math.max(0, Math.min(100, parseInt(bottomParam) || 0)) : 10;
   
   const [keys, setKeys] = useState({ ytKey: "", tcToken: "" });
 
@@ -72,9 +77,9 @@ function OverlayContent() {
       isRight ? "items-end" : "items-start"
     }`}>
       
-      <div className={`absolute top-[11vh] ${isRight ? "right-6" : "left-6"} flex flex-col gap-2 max-w-sm z-50 ${
+      <div className={`absolute ${isRight ? "right-6" : "left-6"} flex flex-col gap-2 max-w-sm z-50 ${
         isRight ? "items-end" : "items-start"
-      }`}>
+      }`} style={{ top: `${top + 1}vh` }}>
         {ytId && !yt.isConnected && yt.error && (
           <div className="bg-slate-900/90 text-red-300 text-xs px-3 py-2 rounded shadow backdrop-blur-sm border border-red-900">
             {yt.error}
@@ -87,7 +92,8 @@ function OverlayContent() {
         )}
       </div>
 
-      <div className="absolute inset-x-0 top-[10vh] bottom-[10vh] overflow-hidden px-6 flex flex-col justify-end pointer-events-none">
+      <div className="absolute inset-x-0 overflow-hidden px-6 flex flex-col justify-end pointer-events-none" 
+           style={{ top: `${top}vh`, bottom: `${bottom}vh` }}>
         <div className={`w-full flex flex-col justify-end pb-4 pointer-events-auto ${
           isRight ? "items-end" : "items-start"
         }`}>

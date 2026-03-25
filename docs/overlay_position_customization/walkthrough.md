@@ -6,7 +6,7 @@
 
 ### UI Components
 
-#### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/overlay/page.tsx)
+#### [MODIFY] [page.tsx](../../src/app/overlay/page.tsx)
 - **URLパラメータ `pos` への対応**:
   - `?pos=right`: 右側に表示し、右から出現するアニメーション。
   - `?pos=left` (デフォルト): 左側に表示し、左から出現するアニメーション。
