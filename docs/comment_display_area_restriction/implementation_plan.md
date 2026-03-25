@@ -3,17 +3,20 @@
 画面全体の上部10%と下部10%にコメントが表示されないように制限します。
 
 ## 概要
-メインのコンテナ要素に `pt-[10vh]` および `pb-[10vh]` を適用することで、コメントが表示される領域を画面中央の80%に制限します。`overflow-hidden` が既に適用されているため、この範囲外に出たコメントはクリップ（非表示）されます。
+メインのコンテナ内に、上下10vhの余白を持つ絶対配置の「表示用コンテナ」を作成し、そこに `overflow-hidden` を適用します。これにより、コメントが上下10%の境界線で確実に切り取られるようにします。また、サンプルページのヘッダーやエラー表示も必要に応じて位置を調整します。
 
 ## 変更内容
 
 ### [Overlay]
 #### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/overlay/page.tsx)
-- メインコンテナの `p-6` を `pt-[10vh] pb-[10vh] px-6` に変更。
+- メインコンテナの `pt-[10vh] pb-[10vh]` を削除（あるいは調整）。
+- コメントリストを `absolute inset-x-0 top-[10vh] bottom-[10vh] overflow-hidden` を持つコンテナで包む。
+- エラー表示の位置を `top-4` から `top-[11vh]` などに調整（任意）。
 
 ### [Sample]
 #### [MODIFY] [page.tsx](file:///Users/pelican/repos/multi-comment-streamer/src/app/sample/page.tsx)
-- メインコンテナの `p-6` を `pt-[10vh] pb-[10vh] px-6` に変更。
+- 同様に、コメントリストを制限用コンテナで包む。
+- サンプルヘッダーの位置を `top-4` から `top-[11vh]` などに調整。
 
 ## 検証プラン
 

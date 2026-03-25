@@ -68,11 +68,11 @@ function OverlayContent() {
   }, []);
 
   return (
-    <div className={`w-full h-screen overflow-hidden pt-[10vh] pb-[10vh] px-6 flex flex-col justify-end text-white bg-transparent ${
+    <div className={`w-full h-screen overflow-hidden p-6 flex flex-col justify-end text-white bg-transparent ${
       isRight ? "items-end" : "items-start"
     }`}>
       
-      <div className={`absolute top-4 ${isRight ? "right-4" : "left-4"} flex flex-col gap-2 max-w-sm z-50 ${
+      <div className={`absolute top-[11vh] ${isRight ? "right-6" : "left-6"} flex flex-col gap-2 max-w-sm z-50 ${
         isRight ? "items-end" : "items-start"
       }`}>
         {ytId && !yt.isConnected && yt.error && (
@@ -87,9 +87,10 @@ function OverlayContent() {
         )}
       </div>
 
-      <div className={`w-full flex flex-col justify-end pb-4 ${
-        isRight ? "items-end" : "items-start"
-      }`}>
+      <div className="absolute inset-x-0 top-[10vh] bottom-[10vh] overflow-hidden px-6 flex flex-col justify-end pointer-events-none">
+        <div className={`w-full flex flex-col justify-end pb-4 pointer-events-auto ${
+          isRight ? "items-end" : "items-start"
+        }`}>
         <AnimatePresence initial={false}>
           {unifiedComments.map((comment) => (
             <motion.div
@@ -120,6 +121,7 @@ function OverlayContent() {
             </motion.div>
           ))}
         </AnimatePresence>
+        </div>
       </div>
     </div>
   );

@@ -85,46 +85,48 @@ function SampleOverlayContent() {
   }, []);
 
   return (
-    <div className={`w-full h-screen overflow-hidden pt-[10vh] pb-[10vh] px-6 flex flex-col justify-end text-white bg-slate-900/10 ${
+    <div className={`w-full h-screen overflow-hidden p-6 flex flex-col justify-end text-white bg-slate-900/10 ${
       isRight ? "items-end" : "items-start"
     }`}>
-      <div className={`absolute top-4 ${isRight ? "right-4" : "left-4"} bg-slate-900/80 px-4 py-2 rounded-lg border border-white/20 backdrop-blur-md`}>
+      <div className={`absolute top-[11vh] ${isRight ? "right-6" : "left-6"} bg-slate-900/80 px-4 py-2 rounded-lg border border-white/20 backdrop-blur-md z-50`}>
         <h1 className="text-sm font-bold">サンプルコメント表示ページ</h1>
         <p className="text-[10px] opacity-70">URLパラメータ `pos=right` で右側に表示されます</p>
       </div>
 
-      <div className={`w-full flex flex-col justify-end pb-4 ${
-        isRight ? "items-end" : "items-start"
-      }`}>
-        <AnimatePresence initial={false}>
-          {unifiedComments.map((comment) => (
-            <motion.div
-              key={comment.id}
-              initial={{ opacity: 0, x: isRight ? 20 : -20, scale: 0.95, height: 0, marginBottom: 0 }}
-              animate={{ opacity: 1, x: 0, scale: 1, height: "auto", marginBottom: "0.75rem" }}
-              exit={{ opacity: 0, scale: 0.9, height: 0, marginBottom: 0, transition: { duration: 0.3 } }}
-              className={`p-3 rounded-xl shadow-lg flex items-start gap-3 w-full max-w-sm backdrop-blur-sm ${
-                isRight ? "origin-right" : "origin-left"
-              } ${
-                comment.platform === "youtube" ? "bg-red-950/80 border border-red-800/60" : "bg-blue-950/80 border border-blue-800/60"
-              }`}
-              style={{ overflow: "hidden" }}
-            >
-              <img src={comment.authorIcon} alt="" className="w-8 h-8 rounded-full bg-slate-800 flex-shrink-0 object-cover border border-white/10" />
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-semibold text-sm opacity-90 truncate leading-none text-slate-100">{comment.authorName}</span>
-                  <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider leading-none ${
-                    comment.platform === "youtube" ? "bg-red-600/50 text-red-100" : "bg-blue-600/50 text-blue-100"
-                  }`}>
-                    {comment.platform === "youtube" ? "YT" : "TC"}
-                  </span>
+      <div className="absolute inset-x-0 top-[10vh] bottom-[10vh] overflow-hidden px-6 flex flex-col justify-end pointer-events-none">
+        <div className={`w-full flex flex-col justify-end pb-4 pointer-events-auto ${
+          isRight ? "items-end" : "items-start"
+        }`}>
+          <AnimatePresence initial={false}>
+            {unifiedComments.map((comment) => (
+              <motion.div
+                key={comment.id}
+                initial={{ opacity: 0, x: isRight ? 20 : -20, scale: 0.95, height: 0, marginBottom: 0 }}
+                animate={{ opacity: 1, x: 0, scale: 1, height: "auto", marginBottom: "0.75rem" }}
+                exit={{ opacity: 0, scale: 0.9, height: 0, marginBottom: 0, transition: { duration: 0.3 } }}
+                className={`p-3 rounded-xl shadow-lg flex items-start gap-3 w-full max-w-sm backdrop-blur-sm ${
+                  isRight ? "origin-right" : "origin-left"
+                } ${
+                  comment.platform === "youtube" ? "bg-red-950/80 border border-red-800/60" : "bg-blue-950/80 border border-blue-800/60"
+                }`}
+                style={{ overflow: "hidden" }}
+              >
+                <img src={comment.authorIcon} alt="" className="w-8 h-8 rounded-full bg-slate-800 flex-shrink-0 object-cover border border-white/10" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-semibold text-sm opacity-90 truncate leading-none text-slate-100">{comment.authorName}</span>
+                    <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider leading-none ${
+                      comment.platform === "youtube" ? "bg-red-600/50 text-red-100" : "bg-blue-600/50 text-blue-100"
+                    }`}>
+                      {comment.platform === "youtube" ? "YT" : "TC"}
+                    </span>
+                  </div>
+                  <p className="text-[15px] shadow-sm break-words leading-snug font-medium text-white">{comment.message}</p>
                 </div>
-                <p className="text-[15px] shadow-sm break-words leading-snug font-medium text-white">{comment.message}</p>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
