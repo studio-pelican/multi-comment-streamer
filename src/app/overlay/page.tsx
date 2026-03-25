@@ -68,7 +68,7 @@ function OverlayContent() {
   }, []);
 
   return (
-    <div className={`w-full h-screen overflow-hidden p-6 flex flex-col justify-end text-white bg-transparent ${
+    <div className={`w-full h-screen overflow-hidden pt-[10vh] pb-[10vh] px-6 flex flex-col justify-end text-white bg-transparent ${
       isRight ? "items-end" : "items-start"
     }`}>
       

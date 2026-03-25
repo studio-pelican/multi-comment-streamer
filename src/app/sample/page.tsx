@@ -85,7 +85,7 @@ function SampleOverlayContent() {
   }, []);
 
   return (
-    <div className={`w-full h-screen overflow-hidden p-6 flex flex-col justify-end text-white bg-slate-900/10 ${
+    <div className={`w-full h-screen overflow-hidden pt-[10vh] pb-[10vh] px-6 flex flex-col justify-end text-white bg-slate-900/10 ${
       isRight ? "items-end" : "items-start"
     }`}>
       <div className={`absolute top-4 ${isRight ? "right-4" : "left-4"} bg-slate-900/80 px-4 py-2 rounded-lg border border-white/20 backdrop-blur-md`}>
