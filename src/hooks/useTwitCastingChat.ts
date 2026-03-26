@@ -79,7 +79,10 @@ export function useTwitCastingChat(screenId: string | null, token: string | null
           })).reverse(); // APIは降順（最新が先頭）なため昇順に戻す
 
           if (newComments.length > 0) {
-            setComments(prev => [...prev, ...newComments]);
+            setComments(prev => {
+              const merged = [...prev, ...newComments];
+              return merged.slice(-50); // 最新の50件のみ保持
+            });
           }
         }
         

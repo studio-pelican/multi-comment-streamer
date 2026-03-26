@@ -72,7 +72,10 @@ export function useYouTubeChat(videoId: string | null, apiKey: string | null) {
             }));
             
             if (newComments.length > 0) {
-              setComments(prev => [...prev, ...newComments]);
+              setComments(prev => {
+                const merged = [...prev, ...newComments];
+                return merged.slice(-50); // 最新の50件のみ保持
+              });
             }
           }
           nextPageTokenRef.current = data.nextPageToken;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useYouTubeChat } from "@/hooks/useYouTubeChat";
@@ -29,6 +29,7 @@ function OverlayContent() {
   const top = topParam ? Math.max(0, Math.min(100, parseInt(topParam) || 0)) : 10;
   const bottom = bottomParam ? Math.max(0, Math.min(100, parseInt(bottomParam) || 0)) : 10;
   
+  const seenIdsRef = useRef<Set<string>>(new Set());
   const [keys, setKeys] = useState({ ytKey: "", tcToken: "" });
 
   useEffect(() => {
@@ -46,21 +47,20 @@ function OverlayContent() {
   const tc = useTwitCastingChat(tcId, keys.tcToken);
 
   useEffect(() => {
-    setUnifiedComments(prev => {
-      const existingIds = new Set(prev.map(c => c.id));
-      const incoming = [...yt.comments, ...tc.comments].sort((a, b) => a.timestamp - b.timestamp);
-      
-      const novel = incoming.filter(c => !existingIds.has(c.id));
-      if (novel.length === 0) return prev;
-      
-      const merged = [...prev, ...novel];
-      
-      // 最大30件残す
-      if (merged.length > 30) {
-        return merged.slice(merged.length - 30);
-      }
-      return merged;
-    });
+    const incoming = [...yt.comments, ...tc.comments].sort((a, b) => a.timestamp - b.timestamp);
+    const novel = incoming.filter(c => !seenIdsRef.current.has(c.id));
+
+    if (novel.length > 0) {
+      setUnifiedComments(prev => {
+        const merged = [...prev, ...novel];
+        if (merged.length > 30) {
+          return merged.slice(merged.length - 30);
+        }
+        return merged;
+      });
+      // novelコメントを記録
+      novel.forEach(c => seenIdsRef.current.add(c.id));
+    }
   }, [yt.comments, tc.comments]);
 
   // 古いコメントを自動パージする（60秒など）
